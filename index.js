@@ -111,63 +111,114 @@
 //   res.send("nuevo usuario creado")
 // })
 
+// const express = require("express");
+// const app = express();
+/**Esto es para hacer peticiones atravez del http */
+// app.get("/search",(req,res)=>{
+//   console.log(req.query)
+//   if(req.query.q === "javascript libros"){
+
+//     res.send("lista de libros de javascript")
+//   }else{
+//     res.send("Pagina normal")
+//   }
+//   })
+
+// /**QUERY Y ?=?=?=?=X_"9 */
+// app.get("/hello/:user", (req, res) => {
+//   console.log(req.query);
+//   console.log(req.query.NAME);//Esto es lo que aparece en el http
+//   console.log(req.query.EDAD);//Esto es lo que aparece en el http
+//   res.send(`hello ${req.params.user.toLocaleUpperCase()}`);
+// });
+
+// app.get("/add/:x/:y", (req, res) => {
+//   console.log(req.params.x);
+//   console.log(req.params.y);
+
+//   const resultado = parseInt(req.params.x) + parseInt(req.params.y);
+//   res.send(`result ${resultado}`);
+// });
+// /* other posibility ^\~*/
+
+// app.get("/agg/:x/:y", (req, res) => {
+//   const { x, y } = req.params;
+//   const resultado = parseInt(x) + parseInt(y);
+//   res.send(`result ${resultado}`);
+// });
+// /**other posibility */
+// app.get("/users/:username/:photo", (req, res) => {
+//   if (req.params.username === "camilo") {
+//     return res.sendFile(`./descuento.gif`, {
+//       /**CASI SIEMPRE SE PONE EL RETURN*/ root: __dirname,
+//     });
+//   }
+
+//   res.send("el usuario no tiene acceso a la imagen");
+// });
+
+// app.get("/nombre/:nombre/age/:age", (req, res) => {
+//   console.log(req.params);
+
+//   if (req.params.age >= 18) return res.send("Si puede ingresar");
+//   else {
+//     res.send("no tiene acceso a la discoteca");
+//   }
+// });
+// const express = require("express");
+// const app = express();
+
+
+// app.use((req,res,next)=>{
+  
+// console.log(`ruta : ${req.url} metodo : ${req.method} `)
+// next()
+// })
+
+// app.all("/profile",(req,res)=>{
+// res.send("profile page")
+
+
+// })
+
+// app.listen(3000);
+// console.log(`puerto en ${3000}`);
+
+
+/**MIDDLEWAREEEEEE */
+
 const express = require("express");
 const app = express();
 
-app.get("/search",(req,res)=>{
-  console.log(req.query)
-  if(req.query.q === "javascript libros"){
+app.get("/dashboard",(req,res)=>{
+  res.send("dashboard lista")
+})
+//si esta detras del middlewire entonces el acceso es directo sin
+//condicinales
+app.use((req,res,next)=>{
+  
+console.log(`ruta : ${req.url} metodo : ${req.method} `)
+next()
+})
 
-    res.send("lista de libros de javascript")
-  }else{
-    res.send("Pagina normal")
+app.use((req,res,next)=>{
+  
+  if(req.query.ingresando === "camilo0918.com"){
+    next()
   }
+  else{
+    res.send("no autorizado")
+  }
+  //apartie de las siguientes rutas como dashboard y profile 
+  //si cumpen con la condicion sigue y aceta la autenticacion
   })
 
-/**QUERY Y ?=?=?=?=X_"9 */
-app.get("/hello/:user", (req, res) => {
-  console.log(req.query);
-  console.log(req.query.NAME);//Esto es lo que aparece en el http
-  console.log(req.query.EDAD);//Esto es lo que aparece en el http
-  res.send(`hello ${req.params.user.toLocaleUpperCase()}`);
-});
 
-app.get("/add/:x/:y", (req, res) => {
-  console.log(req.params.x);
-  console.log(req.params.y);
+app.all("/profile",(req,res)=>{
+res.send("profile page")
 
-  const resultado = parseInt(req.params.x) + parseInt(req.params.y);
-  res.send(`result ${resultado}`);
-});
-/* other posibility ^\~*/
 
-app.get("/agg/:x/:y", (req, res) => {
-  const { x, y } = req.params;
-  const resultado = parseInt(x) + parseInt(y);
-  res.send(`result ${resultado}`);
-});
-/**other posibility */
-app.get("/users/:username/:photo", (req, res) => {
-  if (req.params.username === "camilo") {
-    return res.sendFile(`./descuento.gif`, {
-      /**CASI SIEMPRE SE PONE EL RETURN*/ root: __dirname,
-    });
-  }
-
-  res.send("el usuario no tiene acceso a la imagen");
-});
-
-app.get("/nombre/:nombre/age/:age", (req, res) => {
-  console.log(req.params);
-
-  if (req.params.age >= 18) return res.send("Si puede ingresar");
-  else {
-    res.send("no tiene acceso a la discoteca");
-  }
-});
+})
 
 app.listen(3000);
 console.log(`puerto en ${3000}`);
-
-
-
