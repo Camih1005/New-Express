@@ -114,8 +114,21 @@
 const express = require("express");
 const app = express();
 
+app.get("/search",(req,res)=>{
+  console.log(req.query)
+  if(req.query.q === "javascript libros"){
+
+    res.send("lista de libros de javascript")
+  }else{
+    res.send("Pagina normal")
+  }
+  })
+
+/**QUERY Y ?=?=?=?=X_"9 */
 app.get("/hello/:user", (req, res) => {
-  console.log(typeof req.params.user);
+  console.log(req.query);
+  console.log(req.query.NAME);//Esto es lo que aparece en el http
+  console.log(req.query.EDAD);//Esto es lo que aparece en el http
   res.send(`hello ${req.params.user.toLocaleUpperCase()}`);
 });
 
@@ -155,3 +168,6 @@ app.get("/nombre/:nombre/age/:age", (req, res) => {
 
 app.listen(3000);
 console.log(`puerto en ${3000}`);
+
+
+
